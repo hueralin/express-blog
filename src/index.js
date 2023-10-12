@@ -1,15 +1,31 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const app = require('./app');
+const sequelize = require('./db');
 const config = require('./config/config');
 const logger = require('./config/logger');
 
 let server;
-mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-  logger.info('Connected to MongoDB');
-  server = app.listen(config.port, () => {
-    logger.info(`Listening to port ${config.port}`);
+
+sequelize
+  .authenticate()
+  .then(() => {
+    logger.info('Connected to MySQL');
+    // 同步模型
+    sequelize.sync({ alter: true });
+    server = app.listen(config.port, () => {
+      logger.info(`Listening to port ${config.port}`);
+    });
+  })
+  .catch((err) => {
+    logger.error('Unable to connect to the database:', err);
   });
-});
+
+// mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
+//   logger.info('Connected to MongoDB');
+//   server = app.listen(config.port, () => {
+//     logger.info(`Listening to port ${config.port}`);
+//   });
+// });
 
 const exitHandler = () => {
   if (server) {
