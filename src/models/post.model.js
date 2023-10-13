@@ -2,13 +2,21 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../db');
 const Tag = require('../models/tag.model');
 const Category = require('../models/category.model');
+const { User } = require('./index');
 
 const Post = sequelize.define(
   'Post',
   {
     title: { type: DataTypes.STRING },
-    desc: { type: DataTypes.STRING, defaultValue: '' },
-    content: { type: DataTypes.TEXT },
+    description: { type: DataTypes.STRING, defaultValue: '' },
+    content: { type: DataTypes.TEXT, defaultValue: '' },
+    author_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User,
+        key: 'id',
+      },
+    },
     tag_id: {
       type: DataTypes.INTEGER,
       references: {
@@ -27,6 +35,8 @@ const Post = sequelize.define(
   },
   {
     tableName: 'post',
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
   }
 );
 

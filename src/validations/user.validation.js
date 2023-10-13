@@ -7,6 +7,7 @@ const createUser = {
     name: Joi.string().required(),
     password: Joi.string().required().custom(password),
     password_confirm: Joi.string().required().custom(password),
+    status: Joi.number().integer().valid(-1, 0, 1),
   }),
 };
 

@@ -1,4 +1,3 @@
-// const mongoose = require('mongoose');
 const app = require('./app');
 const sequelize = require('./db');
 const config = require('./config/config');
@@ -19,13 +18,6 @@ sequelize
   .catch((err) => {
     logger.error('Unable to connect to the database:', err);
   });
-
-// mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {
-//   logger.info('Connected to MongoDB');
-//   server = app.listen(config.port, () => {
-//     logger.info(`Listening to port ${config.port}`);
-//   });
-// });
 
 const exitHandler = () => {
   if (server) {
