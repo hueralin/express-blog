@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -23,6 +24,19 @@ if (config.env !== 'test') {
 
 // set security HTTP headers
 app.use(helmet());
+
+// set session
+app.use(
+  session({
+    name: 'sid',
+    secret: config.session_secret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 1000,
+    },
+  })
+);
 
 // parse json request body
 app.use(express.json());

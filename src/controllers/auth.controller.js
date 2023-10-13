@@ -1,17 +1,24 @@
 const httpStatus = require('http-status');
+const bcrypt = require('bcryptjs');
+const config = require('../config/config');
 const catchAsync = require('../utils/catchAsync');
 const { authService, userService, tokenService, emailService } = require('../services');
 
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
-  res.status(httpStatus.CREATED).send({ user });
+  const _user = JSON.parse(JSON.stringify(user));
+  delete _user.password;
+  res.status(httpStatus.CREATED).send({ code: 0, msg: '', data: _user });
 });
 
 const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await authService.loginUserWithEmailAndPassword(email, password);
-  const tokens = await tokenService.generateAuthTokens(user);
-  res.send({ user, tokens });
+  req.session.user = user;
+  const _user = JSON.parse(JSON.stringify(user));
+  delete _user.password;
+  // const tokens = await tokenService.generateAuthTokens(user);
+  res.send({ code: 0, msg: '', data: _user });
 });
 
 const logout = catchAsync(async (req, res) => {

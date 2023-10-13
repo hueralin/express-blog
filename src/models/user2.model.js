@@ -7,7 +7,7 @@ const User = sequelize.define(
     email: { type: DataTypes.STRING, unique: true },
     name: { type: DataTypes.STRING },
     password: { type: DataTypes.STRING },
-    status: { type: DataTypes.INTEGER, default: 1 }, // -1 逻辑删除, 0 禁用, 1 启用
+    status: { type: DataTypes.INTEGER, defaultValue: 1 }, // -1 逻辑删除, 0 禁用, 1 启用
   },
   {
     tableName: 'user',

@@ -14,6 +14,8 @@ const envVarsSchema = Joi.object()
     MYSQL_USER: Joi.string().required().description('MySQL user'),
     MYSQL_PASSWORD: Joi.string().required().description('MySQL password'),
     MYSQL_DATABASE: Joi.string().required().description('MySQL database'),
+    PASSWORD_SALT: Joi.number().required().description('Password Salt'),
+    SESSION_SECRET: Joi.string().required().description('Session Secret'),
     JWT_SECRET: Joi.string().required().description('JWT secret key'),
     JWT_ACCESS_EXPIRATION_MINUTES: Joi.number().default(30).description('minutes after which access tokens expire'),
     JWT_REFRESH_EXPIRATION_DAYS: Joi.number().default(30).description('days after which refresh tokens expire'),
@@ -55,6 +57,8 @@ module.exports = {
     password: envVars.MYSQL_PASSWORD,
     database: envVars.MYSQL_DATABASE,
   },
+  password_salt: envVars.PASSWORD_SALT,
+  session_secret: envVars.SESSION_SECRET,
   jwt: {
     secret: envVars.JWT_SECRET,
     accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,
